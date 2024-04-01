@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="main.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pair with Me</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://telegra.ph/file/3872bf95ac82a340737c3.jpg");
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            align-items: flex-end; /* تحديد الصناديق في الجزء السفلي */
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 100px; /* زيادة المسافة بين الصناديق والحافة السفلية للشاشة */
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background-color: rgba(255, 255, 255, 0.2); /* خلفية شفافة */
+            border: 2px solid #fff; /* حدود باللون الأبيض */
+            border-radius: 20px; /* انحناء دائري */
+            font-weight: bold;
+            font-size: 22px;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s; /* تحريك الصندوق عند التحويم */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 200px; /* تحديد العرض */
+            height: 50px; /* تحديد الارتفاع */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* لتطبيق تحركات داخلية */
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.4); /* زيادة الشفافية عند التحويم */
+            border-color: #FFD700; /* تغيير لون الحدود عند التحويم */
+            transform: translateY(-5px); /* تحريك الصندوق قليلاً لأعلى عند التحويم */
+        }
+
+        .btn:hover span {
+            color: #FFD700; /* تغيير لون النص عند التحويم */
+        }
+
+        .btn:active {
+            transform: translateY(5px); /* تحريك الصندوق قليلاً لأسفل عند النقر */
+        }
+
+        .btn:active span {
+            color: #fff; /* تغيير لون النص عند النقر */
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s, transform 0.5s; /* تطبيق تحركات داخلية */
+        }
+    </style>
+</head>
+<body>
+
+<div class="btn-container">
+    <button onclick="window.location.href='/pair'" class="btn"><span>Pair Code</span></button>
+    <button onclick="window.location.href='https://github.com/OVMAR-DEV/JITOSSA.git'" class="btn"><span>GitHub</span></button>
+    <button onclick="window.location.href='https://t.me/ovmarx'" class="btn"><span>Telegram</span></button>
+    <button onclick="window.location.href='https://www.instagram.com/ovmar_1'" class="btn"><span>Instagram</span></button>
+</div>
+
+</body>
+</html>
