@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ "Ubuntu", "Chrome", "20.0.04" ],
+                browser: [ "JITOSSA" ],
              });
              if(!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
                 }, {
                     quoted: xeonses
                 });
-				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, {quoted: xeonses});
+				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قم بلصقه في الfork الخاص بيك في \ngithub/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, {quoted: xeonses});
         await delay(100);
         return await removeFile('./session');
         process.exit(0)
