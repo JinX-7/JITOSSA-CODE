@@ -65,7 +65,10 @@ router.get('/', async (req, res) => {
                     }, {
                         quoted: xeonses
                     });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, {quoted: xeonses});
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n
+- _github.com/noureddineouafy/bobizaa_\n
+- _JITOSSA_ _*قادم قريبا...*_\n_©OMARCHARAF1_
+_©noureddineouafy_` }, {quoted: xeonses});
                     await delay(100);
                     
                     // حذف الملفات بعد الرد بنجاح على الطلب
