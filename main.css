@@ -1,82 +1,41 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://telegra.ph/file/3872bf95ac82a340737c3.jpg");
-    background-size: cover;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-.btn-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.btn {
-    padding: 15px 40px;
-    background-color: transparent;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 18px;
-    text-transform: uppercase;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.btn span {
+/* تحرك الصندوق بالمستمر مع ألوان زاهية */
+.move {
+    width: 100px;
+    height: 100px;
+    background-color: #ff6347; /* لون زاهي */
     position: relative;
-    z-index: 1;
+    animation: move 2s infinite alternate;
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    z-index: -1;
-    transition: opacity 0.3s, transform 0.3s;
-    opacity: 0;
-    transform: scale(0.9);
+@keyframes move {
+    from { left: 0; background-color: #ff6347; } /* لون أولي */
+    to { left: 200px; background-color: #00ff00; } /* لون ثانوي */
 }
 
-.btn:hover::before {
-    opacity: 1;
-    transform: scale(1);
+/* تدوير الصندوق بالمستمر مع ألوان زاهية */
+.rotate {
+    width: 100px;
+    height: 100px;
+    background-color: #ff00ff; /* لون زاهي */
+    position: relative;
+    animation: rotate 2s infinite linear;
 }
 
-.btn:nth-child(1) {
-    background: linear-gradient(45deg, #ff6b6b, #ffe66d);
+@keyframes rotate {
+    from { transform: rotate(0deg); background-color: #ff00ff; } /* لون أولي */
+    to { transform: rotate(360deg); background-color: #ffff00; } /* لون ثانوي */
 }
 
-.btn:nth-child(2) {
-    background: linear-gradient(45deg, #81ecec, #6c5ce7);
+/* تحرك تدريجي مع ألوان زاهية */
+.fade {
+    width: 100px;
+    height: 100px;
+    background-color: #00ffff; /* لون زاهي */
+    position: relative;
+    animation: fade 2s infinite alternate;
 }
 
-.btn:nth-child(3) {
-    background: linear-gradient(45deg, #55efc4, #00b894);
-}
-
-.btn:nth-child(4) {
-    background: linear-gradient(45deg, #fd79a8, #e84393);
+@keyframes fade {
+    from { opacity: 1; background-color: #00ffff; } /* لون أولي */
+    to { opacity: 0; background-color: #ff1493; } /* لون ثانوي */
 }
