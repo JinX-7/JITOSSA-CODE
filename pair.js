@@ -12,7 +12,7 @@ const {
 function removeFile(FilePath){
     if(!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true })
-};
+ };
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: ["BOBIZA", "AND", "JITOSSA"], // تغيير القيمة هنا
+                browser: [ "JITOSSA W BOBIZA", "Chrome", "20.0.04" ],
             });
             
             if(!XeonBotInc.authState.creds.registered) {
@@ -65,7 +65,7 @@ router.get('/', async (req, res) => {
                     }, {
                         quoted: xeonses
                     });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, {quoted: xeonses});
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, { quoted: xeonses });
                     await delay(100);
                     
                     // حذف الملفات بعد الرد بنجاح على الطلب
