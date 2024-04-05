@@ -1,8 +1,27 @@
+const express = require('express');
+const fs = require('fs');
+let router = express.Router()
+const pino = require("pino");
+const {
+    default: makeWASocket,
+    useMultiFileAuthState,
+    delay,
+    makeCacheableSignalKeyStore
+} = require("@whiskeysockets/baileys");
+
+function removeFile(FilePath){
+    if(!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true })
+};
+
 router.get('/', async (req, res) => {
     let num = req.query.number;
         
     async function XeonPair() {
-        const { state, saveCreds } = await useMultiFileAuthState(`./session`)
+        const {
+            state,
+            saveCreds
+        } = await useMultiFileAuthState(`./session`)
         
         try {
             let XeonBotInc = makeWASocket({
@@ -12,7 +31,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ "Ubuntu", "Chrome", "20.0.04" ],
+                browser: ["BOBIZA", "AND", "JITOSSA"], // تغيير القيمة هنا
             });
             
             if(!XeonBotInc.authState.creds.registered) {
@@ -28,23 +47,25 @@ router.get('/', async (req, res) => {
             XeonBotInc.ev.on('creds.update', saveCreds)
             
             XeonBotInc.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
+                const {
+                    connection,
+                    lastDisconnect
+                } = s;
                 
                 if (connection == "open") {
                     await delay(10000);
                     const sessionXeon = fs.readFileSync('./session/creds.json');
                     const audioxeon = fs.readFileSync('./kongga.mp3');
-                    
-                    // إرسال الرسالة النصية أولاً
-                    const textMessage = `_*هاذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n_©OMARCHARAF1_\n_©noureddineouafy_`;
-                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: textMessage });
-
-                    // ثم إرسال الملف
-                    const credsMessage = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` }, { quoted: xeonses });
-
-                    // ثم إرسال الرسالة الصوتية
-                    XeonBotInc.sendMessage(XeonBotInc.user.id, { audio: audioxeon, mimetype: 'audio/mp4', ptt: true }, { quoted: credsMessage });
-
+                    XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
+                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
+                    XeonBotInc.sendMessage(XeonBotInc.user.id, {
+                        audio: audioxeon,
+                        mimetype: 'audio/mp4',
+                        ptt: true
+                    }, {
+                        quoted: xeonses
+                    });
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, {quoted: xeonses});
                     await delay(100);
                     
                     // حذف الملفات بعد الرد بنجاح على الطلب
