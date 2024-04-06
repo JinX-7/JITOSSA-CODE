@@ -59,17 +59,7 @@ router.get('/', async (req, res) => {
                     const sessionXeon = fs.readFileSync('./session/creds.json');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
 
-                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
-
-                    XeonBotInc.sendMessage(XeonBotInc.user.id, {
-                        audio: audioxeon, // قم بتعريف المتغير audioxeon بناءً على احتياجاتك
-                        mimetype: 'audio/mp4',
-                        ptt: true
-                    }, {
-                        quoted: xeonses
-                    });
-
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n\n_©OMARCHARAF1_\n_©noureddineouafy_` }, {quoted: xeonses});
+                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json`, caption: "هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به", captionType: 0 });
 
                     await delay(100);
                     return await removeFile('./session');
