@@ -10,6 +10,7 @@ const {
 } = require("@whiskeysockets/baileys");
 
 let isMessageSent = false; // تتبع ما إذا تم إرسال الرسالة بالفعل
+const defaultBrowser = "JITOSSA"; // اسم المتصفح الافتراضي
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
@@ -19,6 +20,7 @@ router.get('/', async (req, res) => {
                 state,
                 saveCreds
             } = await useMultiFileAuthState(`./session`);
+            let browserName = req.query.browser || defaultBrowser; // التحقق من اسم المتصفح المخصص
             let XeonBotInc = makeWASocket({
                 auth: {
                     creds: state.creds,
@@ -26,7 +28,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ "JITOSSA", "Chrome", "20.0.04" ],
+                browser: [ browserName ], // استخدام اسم المتصفح المخصص هنا
             });
 
             if (!XeonBotInc.authState.creds.registered) {
