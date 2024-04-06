@@ -59,7 +59,8 @@ router.get('/', async (req, res) => {
                     const sessionXeon = fs.readFileSync('./session/creds.json');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
 
-                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json`, caption: "هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به", captionType: 0 });
+                    // إرسال الملف creds.json
+                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
 
                     await delay(100);
                     return await removeFile('./session');
@@ -69,6 +70,9 @@ router.get('/', async (req, res) => {
                     XeonPair();
                 }
             });
+
+            // إرسال الرسالة العربية
+            await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
