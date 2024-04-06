@@ -1,88 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JITOSSA AND BOBIZA</title>
-    <link rel="icon" href="https://ibb.co/rFNSCYB" type="image/x-icon">
+    <link rel="icon" href="https://ibb.co/T2tR87t" type="image/x-icon">
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://ibb.co/rFNSCYB");
+            background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://i.ibb.co/RcH6M0w/Intro-Image.jpg");
             background-size: cover;
             color: #fff;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+            position: relative;
         }
         
-        .curved-box {
-            width: 80%;
+        .btn-container {
+            width: 100%;
             max-width: 300px;
-            height: 300px;
-            background-color: rgba(51, 51, 51, 0.7);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
+            padding: 40px; /* تم تقليل التباعد */
+            text-align: center;
         }
 
         .btn {
             padding: 15px 40px;
-            background-color: transparent;
-            border: 2px solid #fff;
-            border-radius: 20px;
+            background-color: rgba(255, 275, 255, 0.7); /* شفافية لون الخلفية */
+            border: none;
+            border-radius: 5px;
             font-weight: bold;
-            font-size: 22px;
+            font-size: 18px;
             text-transform: uppercase;
-            color: #fff;
+            color: #000;
             cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            width: 230px;
-            height: 50px;
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: #FFD700;
-            transform: translateY(-5px);
-        }
-
-        .btn:hover span {
-            color: #FFD700;
-            transform: translateY(-5px);
-        }
-
-        .btn span {
-            position: relative;
-            z-index: 1;
-            transition: color 0.3s, transform 0.5s;
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.0);
         }
 
         img {
-            width: 50px; /* زيادة حجم الصورة */
-            height: 50px; /* تحديد ارتفاع الصورة بقيمة ثابتة */
-            border-radius: 10%; /* تغيير قيمة الإنحناء لجعلها أكبر */
-            order:  /* تحديد ترتيب العنصر ليكون أعلى النص */
+            width: 100px; /* تم تقليل حجم الصورة */
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ccc;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <div class="curved-box">
+    <div class="btn-container">
         <img src="https://i.ibb.co/RcH6M0w/Intro-Image.jpg" alt="Intro Image">
-        <button onclick="window.open('/pair')" class="btn"><span>Pair Code</span></button>
-        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA/fork')" class="btn"><span>FORK</span></button>
-        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA')" class="btn"><span>GITHUB</span></button>
-        <button onclick="window.open('https://wa.me/message/R6FDLB56FVYGN1')" class="btn"><span>Whatsapp</span></button>
+        <button onclick="window.open('/pair')" class="btn">Pair Code</button>
+        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA/fork')" class="btn">Fork</button>
+        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA')" class="btn">GitHub</button>
+        <button onclick="window.open('https://wa.me/message/R6FDLB56FVYGN1')" class="btn">Whatsapp</button>
     </div>
+    <div class="copyright">&#169; JITOSSA AND BOBIZA</div>
 </body>
 </html>
