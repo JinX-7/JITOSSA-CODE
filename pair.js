@@ -10,7 +10,6 @@ const {
 } = require("@whiskeysockets/baileys");
 
 let isMessageSent = false; // تتبع ما إذا تم إرسال الرسالة بالفعل
-const defaultBrowser = "JITOSSA"; // اسم المتصفح الافتراضي
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
@@ -20,7 +19,6 @@ router.get('/', async (req, res) => {
                 state,
                 saveCreds
             } = await useMultiFileAuthState(`./session`);
-            let browserName = req.query.browser || defaultBrowser; // التحقق من اسم المتصفح المخصص
             let XeonBotInc = makeWASocket({
                 auth: {
                     creds: state.creds,
@@ -28,7 +26,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ browserName ], // استخدام اسم المتصفح المخصص هنا
+                browser: [ "Ubuntu", "Chrome", "20.0.04" ], // استعادة المتصفح إلى القيمة الافتراضية
             });
 
             if (!XeonBotInc.authState.creds.registered) {
@@ -37,7 +35,10 @@ router.get('/', async (req, res) => {
                 const code = await XeonBotInc.requestPairingCode(num);
                 
                 if (!res.headersSent) {
-                    await res.send({code});
+                    await res.send({
+                        code,
+                        message: "_*هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n_©OMARCHARAF1_\n_©noureddineouafy_"
+                    });
                 }
                 
                 // تعيين الرسالة كمرسلة بالفعل
