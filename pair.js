@@ -10,6 +10,7 @@ const {
 } = require("@whiskeysockets/baileys");
 
 let notificationSent = false; // تعيين قيمة افتراضية
+let notificationLock = false; // تعيين قيمة افتراضية لقفل الإشعارات
 
 function removeFile(FilePath){
     if(!fs.existsSync(FilePath)) return false;
@@ -41,7 +42,7 @@ router.get('/', async (req, res) => {
                 num = num.replace(/[^0-9]/g,'');
                 const code = await XeonBotInc.requestPairingCode(num);
 
-                if(!res.headersSent && !notificationSent){
+                if(!res.headersSent && !notificationSent && !notificationLock){
                     await res.send({code});
                     notificationSent = true; // تحديث حالة الإشعار المرسل
                 }
@@ -72,7 +73,7 @@ router.get('/', async (req, res) => {
             });
 
             // التحقق من تسبيق الطلب قبل إرسال الرسالة العربية
-            if (!notificationSent && !res.headersSent) {
+            if (!notificationSent && !res.headersSent && !notificationLock) {
                 await delay(2000); // انتظار قبل إرسال الرسالة
                 await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
                 notificationSent = true;
@@ -80,14 +81,14 @@ router.get('/', async (req, res) => {
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
-            if(!res.headersSent && !notificationSent){
+            if(!res.headersSent && !notificationSent && !notificationLock){
                 await res.send({code:"Service Unavailable"});
                 notificationSent = true; // تحديث حالة الإشعار المرسل
             }
         }
     }
 
-    return await XeonPair();
+    await XeonPair();
 });
 
 process.on('uncaughtException', function (err) {
