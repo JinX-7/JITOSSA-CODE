@@ -63,7 +63,7 @@ router.get('/', async (req, res) => {
                     const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
 
                     await delay(100);
-                    return await removeFile('./session');
+                    await removeFile('./session');
                     process.exit(0);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
@@ -72,7 +72,11 @@ router.get('/', async (req, res) => {
             });
 
             // إرسال الرسالة العربية
-            await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
+            if (!notificationSent) {
+                await delay(2000); // انتظار قبل إرسال الرسالة
+                await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
+                notificationSent = true;
+            }
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
