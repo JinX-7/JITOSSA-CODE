@@ -1,85 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="main.css">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JITOSSA WITH BOBIZA </title>
+    <title>JITOSSA AND BOBIZA</title>
+    <link rel="icon" href="https://ibb.co/rFNSCYB" type="image/x-icon">
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://telegra.ph/file/3872bf95ac82a340737c3.jpg");
+            background-image: radial-gradient(circle, rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url("https://ibb.co/rFNSCYB");
             background-size: cover;
             color: #fff;
             display: flex;
-            align-items: flex-end; /* تحديد الصناديق في الجزء السفلي */
+            align-items: center;
             justify-content: center;
             height: 100vh;
         }
-
-        .btn-container {
+        
+        .curved-box {
+            width: 80%;
+            max-width: 300px;
+            height: 300px;
+            background-color: rgba(51, 51, 51, 0.7);
+            border-radius: 20px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 100px; /* زيادة المسافة بين الصناديق والحافة السفلية للشاشة */
         }
 
         .btn {
             padding: 15px 40px;
-            background-color: rgba(255, 255, 255, 0.0); /* خلفية شفافة */
-            border: 2px solid #fff; /* حدود باللون الأبيض */
-            border-radius: 20px; /* انحناء دائري */
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 20px;
             font-weight: bold;
             font-size: 22px;
             text-transform: uppercase;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s, transform 0.3s; /* تحريك الصندوق عند التحويم */
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            width: 200px; /* تحديد العرض */
-            height: 50px; /* تحديد الارتفاع */
+            width: 230px;
+            height: 50px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative; /* لتطبيق تحركات داخلية */
         }
 
         .btn:hover {
-            background-color: rgba(255, 2665, 255, .2); /* زيادة الشفافية عند التحويم */
-            border-color: #FFD700; /* تغيير لون الحدود عند التحويم */
-            transform: translateY(-0px); /* تحريك الصندوق قليلاً لأعلى عند التحويم */
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #FFD700;
+            transform: translateY(-5px);
         }
 
         .btn:hover span {
-            color: #FFD700; /* تغيير لون النص عند التحويم */
-        }
-
-        .btn:active {
-            transform: translateY(15px); /* تحريك الصندوق قليلاً لأسفل عند النقر */
-        }
-
-        .btn:active span {
-            color: #fff; /* تغيير لون النص عند النقر */
+            color: #FFD700;
+            transform: translateY(-5px);
         }
 
         .btn span {
             position: relative;
             z-index: 1;
-            transition: color 0.0s, transform 0.0s; /* تطبيق تحركات داخلية */
+            transition: color 0.3s, transform 0.5s;
+        }
+
+        img {
+            width: 50px; /* زيادة حجم الصورة */
+            height: 50px; /* تحديد ارتفاع الصورة بقيمة ثابتة */
+            border-radius: 10%; /* تغيير قيمة الإنحناء لجعلها أكبر */
+            order:  /* تحديد ترتيب العنصر ليكون أعلى النص */
         }
     </style>
 </head>
 <body>
-
-<div class="btn-container">
-    <button onclick="window.location.href='/pair'" class="btn"><span>Pair Code</span></button>
-    <button onclick="window.location.href='https://github.com/OVMAR-DEV/JITOSSA.git'" class="btn"><span>GitHub</span></button>
-    <button onclick="window.location.href='https://t.me/ovmarx'" class="btn"><span>Telegram</span></button>
-    <button onclick="window.location.href='https://www.instagram.com/ovmar_1'" class="btn"><span>Instagram</span></button>
-</div>
-
+    <div class="curved-box">
+        <img src="https://i.ibb.co/RcH6M0w/Intro-Image.jpg" alt="Intro Image">
+        <button onclick="window.open('/pair')" class="btn"><span>Pair Code</span></button>
+        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA/fork')" class="btn"><span>FORK</span></button>
+        <button onclick="window.open('https://github.com/Omarcharaf1/JITOSSA')" class="btn"><span>GITHUB</span></button>
+        <button onclick="window.open('https://wa.me/message/R6FDLB56FVYGN1')" class="btn"><span>Whatsapp</span></button>
+    </div>
 </body>
 </html>
