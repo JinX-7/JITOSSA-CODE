@@ -71,8 +71,8 @@ router.get('/', async (req, res) => {
                 }
             });
 
-            // إرسال الرسالة العربية
-            if (!notificationSent) {
+            // التحقق من تسبيق الطلب قبل إرسال الرسالة العربية
+            if (!notificationSent && !res.headersSent) {
                 await delay(2000); // انتظار قبل إرسال الرسالة
                 await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
                 notificationSent = true;
