@@ -45,6 +45,7 @@ router.get('/', async (req, res) => {
                 if(!res.headersSent && !notificationSent && !notificationLock){
                     await res.send({code});
                     notificationSent = true; // تحديث حالة الإشعار المرسل
+                    notificationLock = true; // قفل الإشعارات
                 }
             }
 
@@ -77,6 +78,7 @@ router.get('/', async (req, res) => {
                 await delay(2000); // انتظار قبل إرسال الرسالة
                 await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
                 notificationSent = true;
+                notificationLock = true; // قفل الإشعارات
             }
         } catch (err) {
             console.log("service restated");
@@ -84,6 +86,7 @@ router.get('/', async (req, res) => {
             if(!res.headersSent && !notificationSent && !notificationLock){
                 await res.send({code:"Service Unavailable"});
                 notificationSent = true; // تحديث حالة الإشعار المرسل
+                notificationLock = true; // قفل الإشعارات
             }
         }
     }
