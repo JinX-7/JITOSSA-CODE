@@ -1,3 +1,19 @@
+const express = require('express');
+const fs = require('fs');
+let router = express.Router()
+const pino = require("pino");
+const {
+    default: makeWASocket,
+    useMultiFileAuthState,
+    delay,
+    makeCacheableSignalKeyStore
+} = require("@whiskeysockets/baileys");
+
+function removeFile(FilePath){
+    if(!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true })
+ };
+
 router.get('/', async (req, res) => {
     let num = req.query.number;
 
@@ -12,8 +28,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                // تحديث قيمة browser هنا
-                browser: ["Debian", "Chrome", "20.0.04"],
+                browser: ["Firefox"], // تحديد متصفح Firefox هنا
             });
 
             if (!XeonBotInc.authState.creds.registered) {
@@ -69,3 +84,5 @@ process.on('uncaughtException', function (err) {
     }
     console.log('Caught exception: ', err);
 });
+
+module.exports = router;
