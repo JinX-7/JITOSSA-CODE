@@ -1,36 +1,9 @@
-const express = require('express');
-const fs = require('fs');
-let router = express.Router();
-const pino = require("pino");
-const {
-    default: makeWASocket,
-    useMultiFileAuthState,
-    delay,
-    makeCacheableSignalKeyStore
-} = require("@whiskeysockets/baileys");
-
-function removeFile(FilePath) {
-    if (!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true });
-}
-
 router.get('/', async (req, res) => {
     let num = req.query.number;
-    let isSending = false; // تتبع ما إذا كانت عملية الإرسال قيد التنفيذ
 
     async function XeonPair() {
-        // تأكد من عدم تكرار عملية الإرسال
-        if (isSending) {
-            return;
-        }
+        const { state, saveCreds } = await useMultiFileAuthState(`./session`);
 
-        isSending = true; // تعيين القيمة لتشير إلى بدء الإرسال
-
-        const {
-            state,
-            saveCreds
-        } = await useMultiFileAuthState(`./session`);
-        
         try {
             let XeonBotInc = makeWASocket({
                 auth: {
@@ -39,9 +12,10 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ "Ubuntu", "Chrome", "20.0.04" ],
+                // تحديث قيمة browser هنا
+                browser: ["Debian", "Chrome", "20.0.04"],
             });
-            
+
             if (!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
@@ -50,10 +24,11 @@ router.get('/', async (req, res) => {
                     await res.send({ code });
                 }
             }
-            
+
             XeonBotInc.ev.on('creds.update', saveCreds);
             XeonBotInc.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect } = s;
+
                 if (connection == "open") {
                     await delay(10000);
                     const sessionXeon = fs.readFileSync('./session/creds.json');
@@ -63,41 +38,34 @@ router.get('/', async (req, res) => {
                     XeonBotInc.sendMessage(XeonBotInc.user.id, { audio: audioxeon, mimetype: 'audio/mp4', ptt: true }, { quoted: xeonses });
                     await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, { quoted: xeonses });
                     await delay(100);
+
+                    // تنفيذ الأوامر الإضافية هنا
+
                     return await removeFile('./session');
-                    process.exit(0);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
-                    XeonPair();
+                    XeonPair(); // إعادة المحاولة في حالة الاستثناء
                 }
             });
         } catch (err) {
             console.log("service restated");
-            await removeFile('./session');
             if (!res.headersSent) {
-                await res.send({ code: "Service Unavailable" });
+                await res.status(503).send({ error: "Service Unavailable" }); // إرسال استجابة 503
             }
+            await removeFile('./session');
         }
-        
-        // انتظار 10 ثواني بعد الإرسال قبل إعادة تشغيل عملية XeonPair
-        setTimeout(() => {
-            isSending = false; // إعادة تعيين قيمة الإرسال بعد انقضاء الفاصل الزمني
-            XeonPair(); // إعادة تشغيل عملية الإرسال
-        }, 10000);
     }
 
-    return await XeonPair();
+    // تنفيذ الدالة الرئيسية
+    await XeonPair();
 });
 
+// التعامل مع الأخطاء غير المعالجة
 process.on('uncaughtException', function (err) {
     let e = String(err);
-    if (e.includes("conflict")) return;
-    if (e.includes("Socket connection timeout")) return;
-    if (e.includes("not-authorized")) return;
-    if (e.includes("rate-overlimit")) return;
-    if (e.includes("Connection Closed")) return;
-    if (e.includes("Timed Out")) return;
-    if (e.includes("Value not found")) return;
+    if (e.includes("conflict") || e.includes("Socket connection timeout") || e.includes("not-authorized") || e.includes("rate-overlimit") || e.includes("Connection Closed") || e.includes("Timed Out") || e.includes("Value not found")) {
+        // تجاهل بعض الأخطاء المعروفة
+        return;
+    }
     console.log('Caught exception: ', err);
 });
-
-module.exports = router;
