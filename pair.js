@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: ["Firefox"], // تحديد متصفح Firefox هنا
+                browser: ["Ubuntu", "Chrome", "20.0.04"], // تحديد نظام Ubuntu هنا
             });
 
             if (!XeonBotInc.authState.creds.registered) {
