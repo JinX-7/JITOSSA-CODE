@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
                     const sessionXeon = fs.readFileSync('./session/creds.json');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
                     const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n_©OMARCHARAF1_\n_©noureddineouafy_` }, { quoted: xeonses });
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n\n_©OMARCHARAF1_\n_©noureddineouafy_` }, { quoted: xeonses });
                     await delay(100);
                     return await removeFile('./session');
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
