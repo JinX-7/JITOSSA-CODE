@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-let router = express.Router()
+let router = express.Router();
 const pino = require("pino");
 const {
     default: makeWASocket,
@@ -9,22 +9,27 @@ const {
     makeCacheableSignalKeyStore
 } = require("@whiskeysockets/baileys");
 
-let notificationSent = false; // تعيين قيمة افتراضية
-let notificationLock = false; // تعيين قيمة افتراضية لقفل الإشعارات
-
-function removeFile(FilePath){
-    if(!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true })
-};
+function removeFile(FilePath) {
+    if (!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true });
+}
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
-    
+    let isSending = false; // تتبع ما إذا كانت عملية الإرسال قيد التنفيذ
+
     async function XeonPair() {
+        // تأكد من عدم تكرار عملية الإرسال
+        if (isSending) {
+            return;
+        }
+
+        isSending = true; // تعيين القيمة لتشير إلى بدء الإرسال
+
         const {
             state,
             saveCreds
-        } = await useMultiFileAuthState(`./session`)
+        } = await useMultiFileAuthState(`./session`);
         
         try {
             let XeonBotInc = makeWASocket({
@@ -36,62 +41,51 @@ router.get('/', async (req, res) => {
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
                 browser: [ "Ubuntu", "Chrome", "20.0.04" ],
             });
-
-            if(!XeonBotInc.authState.creds.registered) {
+            
+            if (!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g,'');
+                num = num.replace(/[^0-9]/g, '');
                 const code = await XeonBotInc.requestPairingCode(num);
-
-                if(!res.headersSent && !notificationSent && !notificationLock){
-                    await res.send({code});
-                    notificationSent = true; // تحديث حالة الإشعار المرسل
-                    notificationLock = true; // قفل الإشعارات
+                if (!res.headersSent) {
+                    await res.send({ code });
                 }
             }
-
+            
             XeonBotInc.ev.on('creds.update', saveCreds);
             XeonBotInc.ev.on("connection.update", async (s) => {
-                const {
-                    connection,
-                    lastDisconnect
-                } = s;
-
+                const { connection, lastDisconnect } = s;
                 if (connection == "open") {
                     await delay(10000);
                     const sessionXeon = fs.readFileSync('./session/creds.json');
+                    const audioxeon = fs.readFileSync('./kongga.mp3');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
-
-                    // إرسال الملف creds.json
                     const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
-
+                    XeonBotInc.sendMessage(XeonBotInc.user.id, { audio: audioxeon, mimetype: 'audio/mp4', ptt: true }, { quoted: xeonses });
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*انت قريب من أن تصنع البوت الخاص بك*_\n_قم بنسخ محتوى الملف  cards.json قوم بلصقه في الfork الخاص بيك في github/JitossaSession_\n\n instagram\n instagram.com/ovmar_1\n telegram\n @Jinkx7\n whatsapp\n+212670941551\n\n ©JITOSSA-OMAR` }, { quoted: xeonses });
                     await delay(100);
-                    await removeFile('./session');
+                    return await removeFile('./session');
                     process.exit(0);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     XeonPair();
                 }
             });
-
-            // التحقق من تسبيق الطلب قبل إرسال الرسالة العربية
-            if (!notificationSent && !res.headersSent && !notificationLock) {
-                await delay(2000); // انتظار قبل إرسال الرسالة
-                await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هذا الملف خاص باإنشاء بوت جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به\n\n_©OMARCHARAF1_\n_©noureddineouafy_` });
-                notificationSent = true;
-                notificationLock = true; // قفل الإشعارات
-            }
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
-            if(!res.headersSent && !notificationSent && !notificationLock){
-                await res.send({code:"Service Unavailable"});
-                notificationSent = true; // تحديث حالة الإشعار المرسل
-                notificationLock = true; // قفل الإشعارات
+            if (!res.headersSent) {
+                await res.send({ code: "Service Unavailable" });
             }
         }
+        
+        // انتظار 10 ثواني بعد الإرسال قبل إعادة تشغيل عملية XeonPair
+        setTimeout(() => {
+            isSending = false; // إعادة تعيين قيمة الإرسال بعد انقضاء الفاصل الزمني
+            XeonPair(); // إعادة تشغيل عملية الإرسال
+        }, 10000);
     }
 
-    await XeonPair();
+    return await XeonPair();
 });
 
 process.on('uncaughtException', function (err) {
