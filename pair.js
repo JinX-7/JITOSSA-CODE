@@ -1,83 +1,100 @@
+const PastebinAPI = require('pastebin-js'),
+pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL')
+const {makeid} = require('./id');
 const express = require('express');
 const fs = require('fs');
 let router = express.Router()
 const pino = require("pino");
 const {
-    default: makeWASocket,
+    default: Excel_Xcelsama,
     useMultiFileAuthState,
     delay,
-    makeCacheableSignalKeyStore
-} = require("@whiskeysockets/baileys");
+    makeCacheableSignalKeyStore,
+    Browsers
+} = require("maher-zubair-baileys");
 
 function removeFile(FilePath){
     if(!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true })
-};
-
+ };
 router.get('/', async (req, res) => {
+    const id = makeid();
     let num = req.query.number;
-
-    async function XeonPair() {
-        const { state, saveCreds } = await useMultiFileAuthState(`./session`);
-
-        try {
-            let XeonBotInc = makeWASocket({
+        async function STAR_MD_PAIR_CODE() {
+        const {
+            state,
+            saveCreds
+        } = await useMultiFileAuthState('./temp/'+id)
+     try {
+            let Pair_Code_By_Excel_Xcelsama = Excel_Xcelsama({
                 auth: {
                     creds: state.creds,
                     keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: ["Ubuntu", "Chrome", "20.0.04"],
-            });
-
-            if (!XeonBotInc.authState.creds.registered) {
+                browser: ["Chrome (Linux)", "", ""]
+             });
+             if(!Pair_Code_By_Excel_Xcelsama.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g, '');
-                const code = await XeonBotInc.requestPairingCode(num);
-                if (!res.headersSent) {
-                    await res.send({ code });
-                }
-            }
-
-            XeonBotInc.ev.on('creds.update', saveCreds);
-            XeonBotInc.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
-
+                        num = num.replace(/[^0-9]/g,'');
+                            const code = await Pair_Code_By_Excel_Xcelsama.requestPairingCode(num)
+                 if(!res.headersSent){
+                 await res.send({code});
+                     }
+                 }
+            Pair_Code_By_Excel_Xcelsama.ev.on('creds.update', saveCreds)
+            Pair_Code_By_Excel_Xcelsama.ev.on("connection.update", async (s) => {
+                const {
+                    connection,
+                    lastDisconnect
+                } = s;
                 if (connection == "open") {
+                await delay(5000);
+                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                await delay(800);
+               let b64data = Buffer.from(data).toString('base64');
+               let session = await Pair_Code_By_Excel.sendMessage(Pair_Code_By_Excel.user.id, { text: '' + b64data });
+
+               let STAR_MD_TEXT = `
+*_Pair Code Connected by Excel_*
+*_Made With HTML📡_*
+______________________________________
+╔════◇
+║ *『 WOW YOU CHOSE STAR-MD』*
+║ _You Have Completed the First Step to Deploy a Whatsapp Bot._
+╚══════════════════════╝
+╔═════◇
+║  『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
+║❒ *Channel:* _https://whatsapp.com/channel/0029Va9wmuz8F2pGIURwmo0m_
+║❒ *Owner:* _https://wa.me/2347045035241_
+║❒ *Repo:* _https://github.com/Xcelsama/STAR-MD-V2_
+║❒ *WaGroup:* _https://chat.whatsapp.com/EmP3syvou18HrZk6R6nTAK_
+║❒ *WaChannel:* _https://whatsapp.com/channel/0029VaJmfmTDJ6H7CmuBss0o_
+║❒ *Other Repo:* _https://github.com/Xcelsama/STAR-MD_
+╚══════════════════════╝ 
+_____________________________________
+
+_Don't Forget To Give Star To My Repo_`
+ await Pair_Code_By_Excel_Xcelsama.sendMessage(Pair_Code_By_Excel_Xcelsama.user.id,{text:STAR_MD_TEXT},{quoted:session})
+ 
+
+        await delay(100);
+        await Pair_Code_By_Excel_Xcelsama.ws.close();
+        return await removeFile('./temp/'+id);
+            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
-                    const sessionXeon = fs.readFileSync('./session/creds.json');
-                    XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
-                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n\n_©OMARCHARAF1_\n_©noureddineouafy_` }, { quoted: xeonses });
-                    await delay(100);
-                    return await removeFile('./session');
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    await delay(10000);
-                    XeonPair();
+                    STAR_MD_PAIR_CODE();
                 }
             });
         } catch (err) {
             console.log("service restated");
-            await removeFile('./session');
-            if (!res.headersSent) {
-                await res.send({ code: "Service Unavailable" });
-            }
+            await removeFile('./temp/'+id);
+         if(!res.headersSent){
+            await res.send({code:"Service Unavailable"});
+         }
         }
     }
-
-    // تنفيذ الدالة الرئيسية
-    await XeonPair();
+    return await STAR_MD_PAIR_CODE()
 });
-
-// التعامل مع الأخطاء غير المعالجة
-process.on('uncaughtException', function (err) {
-    let e = String(err);
-    if (e.includes("conflict") || e.includes("Socket connection timeout") || e.includes("not-authorized") || e.includes("rate-overlimit") || e.includes("Connection Closed") || e.includes("Timed Out") || e.includes("Value not found")) {
-        // تجاهل بعض الأخطاء المعروفة
-        return;
-    }
-    console.log('Caught exception: ', err);
-});
-
-module.exports = router;
+module.exports = router
