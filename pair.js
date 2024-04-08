@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
                 },
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [`GURU BHAY`, "Safari", "3.0"],
+                browser: [ `GURU BHAY`, "Safari", "3.0" ],
              });
              if(!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
