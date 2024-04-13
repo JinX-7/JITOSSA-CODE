@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
                     }, {
                         quoted: xeonses
                     });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n- _JITOSSA_ _*قادم قريبا...*_\n_©OMARCHARAF1_\n_©noureddineouafy_` }, {quoted: xeonses});
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n\n _https://github.com/Omarcharaf1/JITOSSA-AI_\n \n\n _https://github.com/Omarcharaf1/JITOSSA_\n_©OMARCHARAF1_\n_©noureddineouafy_` }, {quoted: xeonses});
                     await delay(100);
                     await removeFile('./session');
                     process.exit(0);
