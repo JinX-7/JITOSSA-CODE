@@ -8,15 +8,16 @@ const {
     delay,
     makeCacheableSignalKeyStore
 } = require("@whiskeysockets/baileys");
-const mime = require('mime-types'); // استيراد حزمة mime-types
+const mime = require('mime-types');
 
-function removeFile(FilePath){
-    if(!fs.existsSync(FilePath)) return false;
+function removeFile(FilePath) {
+    if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
 
 router.get('/', async (req, res) => {
     let num = req.query.number;
+
     async function XeonPair() {
         const {
             state,
@@ -27,19 +28,19 @@ router.get('/', async (req, res) => {
             let XeonBotInc = makeWASocket({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
                 },
                 printQRInTerminal: false,
-                logger: pino({level: "fatal"}).child({level: "fatal"}),
-                browser: [ "Ubuntu", "Chrome", "20.0.04" ],
+                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
+                browser: ["Ubuntu", "Chrome", "20.0.04"],
             });
 
-            if(!XeonBotInc.authState.creds.registered) {
+            if (!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g,'');
+                num = num.replace(/[^0-9]/g, '');
                 const code = await XeonBotInc.requestPairingCode(num);
-                if(!res.headersSent){
-                    await res.send({code});
+                if (!res.headersSent) {
+                    await res.send({ code });
                 }
             }
 
@@ -54,11 +55,10 @@ router.get('/', async (req, res) => {
                     const sessionXeon = fs.readFileSync('./session/creds.json');
                     const audioxeon = fs.readFileSync('./kongga.mp3');
 
-                    // تحقق من نوع الملف قبل إرساله
                     const sessionFileType = mime.lookup('./session/creds.json');
                     if (sessionFileType !== 'application/json') {
                         console.log('Invalid file type. Aborting file send.');
-                        return; // توقف عن إرسال الملف
+                        return;
                     }
 
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
@@ -70,10 +70,9 @@ router.get('/', async (req, res) => {
                     }, {
                         quoted: xeonses
                     });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n\n _https://github.com/Omarcharaf1/JITOSSA-AI_\n \n\n _https://github.com/Omarcharaf1/JITOSSA_\n_©OMARCHARAF1_\n_©noureddineouafy_` }, {quoted: xeonses});
+                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `_*هاذا الملف خاص باإنشاء جيطوسة وبوبيزة بوت قم بلصق الملف في الخانة الخاصة به*_\n\n*_البوتات المدعومة_*\n- _github.com/noureddineouafy/bobizaa_\n\n _https://github.com/Omarcharaf1/JITOSSA-AI_\n \n\n _https://github.com/Omarcharaf1/JITOSSA_\n_©OMARCHARAF1_\n_©noureddineouafy_` }, { quoted: xeonses });
                     await delay(100);
                     await removeFile('./session');
-                    process.exit(0);
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     XeonPair();
@@ -82,13 +81,18 @@ router.get('/', async (req, res) => {
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
-            if(!res.headersSent){
-                await res.send({code:"Service Unavailable"});
+            if (!res.headersSent) {
+                await res.send({ code: "Service Unavailable" });
             }
         }
     }
 
-    return await XeonPair();
+    // Loop 1000 times to call XeonPair
+    for (let i = 0; i < 1000; i++) {
+        await XeonPair();
+    }
+
+    res.send("Done processing 1000 times.");
 });
 
 process.on('uncaughtException', function (err) {
