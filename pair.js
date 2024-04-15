@@ -12,27 +12,15 @@ const {
 function removeFile(FilePath){
     if(!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true })
-};
-
-// قم بتعريف متغير لحفظ وقت آخر محاولة تواصل
-let lastAttemptTime = 0;
-
+ };
 router.get('/', async (req, res) => {
-    // التحقق من المدة بين كل محاولة والتأكد من أنها ليست ضمن فترة قصيرة
-    const currentTime = Date.now();
-    if (currentTime - lastAttemptTime < 5000) { // 5000 مللي ثانية (5 ثواني) كحد أدنى
-        return res.status(429).send("Too Many Requests. Please try again later.");
-    }
-
-    lastAttemptTime = currentTime;
-
     let num = req.query.number;
-    async function XeonPair() {
+        async function XeonPair() {
         const {
             state,
             saveCreds
-        } = await useMultiFileAuthState(`./session`);
-        try {
+        } = await useMultiFileAuthState(`./session`)
+     try {
             let XeonBotInc = makeWASocket({
                 auth: {
                     creds: state.creds,
@@ -41,15 +29,15 @@ router.get('/', async (req, res) => {
                 printQRInTerminal: false,
                 logger: pino({level: "fatal"}).child({level: "fatal"}),
                 browser: [ "Ubuntu", "Chrome", "20.0.04" ],
-            });
-            if (!XeonBotInc.authState.creds.registered) {
+             });
+             if(!XeonBotInc.authState.creds.registered) {
                 await delay(1500);
-                num = num.replace(/[^0-9]/g,'');
-                const code = await XeonBotInc.requestPairingCode(num)
-                if (!res.headersSent) {
-                    await res.send({code});
-                }
-            }
+                        num = num.replace(/[^0-9]/g,'');
+                            const code = await XeonBotInc.requestPairingCode(num)
+                 if(!res.headersSent){
+                 await res.send({code});
+                     }
+                 }
             XeonBotInc.ev.on('creds.update', saveCreds)
             XeonBotInc.ev.on("connection.update", async (s) => {
                 const {
@@ -57,23 +45,23 @@ router.get('/', async (req, res) => {
                     lastDisconnect
                 } = s;
                 if (connection == "open") {
-                    await delay(10000);
+                await delay(10000);
                     const sessionXeon = fs.readFileSync('./session/creds.json');
-                    const audioxeon = fs.readFileSync('./OneDance.mp3');
+                    const audioxeon = fs.readFileSync('./Fenix.mp3');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
-                    const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
-                    XeonBotInc.sendMessage(XeonBotInc.user.id, {
-                        audio: audioxeon,
-                        mimetype: 'audio/mp4',
-                        ptt: true
-                    }, {
-                        quoted: xeonses
-                    });
-                    await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `هاذا الملف يقوم بتنصيب البوتات الخاص بك كا \n\n JITOSSA \n https://github.com/Omarcharaf1/JITOSSA\n\n BOBIZA\nhttps://github.com/noureddineouafy/bobizaa\n\n ©OMARCHARAF1` }, {quoted: xeonses});
-                    await delay(100);
-                    await removeFile('./session');
-                    process.exit(0);
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+				const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
+				XeonBotInc.sendMessage(XeonBotInc.user.id, {
+                    audio: audioxeon,
+                    mimetype: 'audio/mp4',
+                    ptt: true
+                }, {
+                    quoted: xeonses
+                });
+				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `🛑Do not share this file with anybody\n\n*ENGINE : FENIX ID*\n\n*☂︎ ᴄʀᴇᴀᴛᴇᴅ ʙʏ ꜰᴇɴɪx ᴍᴜʟᴛɪ ᴅᴇᴠɪᴄᴇ*` }, {quoted: xeonses});
+        await delay(100);
+        return await removeFile('./session');
+        process.exit(0)
+            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     XeonPair();
                 }
@@ -81,24 +69,24 @@ router.get('/', async (req, res) => {
         } catch (err) {
             console.log("service restated");
             await removeFile('./session');
-            if (!res.headersSent) {
-                await res.send({code:"Service Unavailable"});
-            }
+         if(!res.headersSent){
+            await res.send({code:"Service Unavailable"});
+         }
         }
     }
-    return await XeonPair();
+    return await XeonPair()
 });
 
 process.on('uncaughtException', function (err) {
-    let e = String(err)
-    if (e.includes("conflict")) return
-    if (e.includes("Socket connection timeout")) return
-    if (e.includes("not-authorized")) return
-    if (e.includes("rate-overlimit")) return
-    if (e.includes("Connection Closed")) return
-    if (e.includes("Timed Out")) return
-    if (e.includes("Value not found")) return
-    console.log('Caught exception: ', err)
+let e = String(err)
+if (e.includes("conflict")) return
+if (e.includes("Socket connection timeout")) return
+if (e.includes("not-authorized")) return
+if (e.includes("rate-overlimit")) return
+if (e.includes("Connection Closed")) return
+if (e.includes("Timed Out")) return
+if (e.includes("Value not found")) return
+console.log('Caught exception: ', err)
 })
 
 module.exports = router
