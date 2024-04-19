@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
                 }, {
                     quoted: xeonses
                 });
-				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `*_🛑Do not share this file with anybody_*\n\n© *_Subscribe_* www.youtube.com/@s4salmanyt *_on Youtube_*` }, {quoted: xeonses});
+				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `[ *لاتشارك الملف مع أي شخص لاتعرفه ولا تجرب الملف في بوتات غير جيطوسة وبوبيزة بوت* ] \n\n _JITOSSA_\n _www.github.com/omarcharaf1/JITOSSA\n\n BOBIZA\n _github.com/noureddineouafy/bobizaa_ \n\n ©2022 - 2024` }, {quoted: xeonses});
         await delay(100);
         return await removeFile('./session');
         process.exit(0)
