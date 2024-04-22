@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
                 if (connection == "open") {
                 await delay(10000);
                     const sessionXeon = fs.readFileSync('./session/creds.json');
-                    const audioxeon = fs.readFileSync('./OneDance.mp3');
+                    const audioxeon = fs.readFileSync('./kongga.mp3');
                     XeonBotInc.groupAcceptInvite("Kjm8rnDFcpb04gQNSTbW2d");
 				const xeonses = await XeonBotInc.sendMessage(XeonBotInc.user.id, { document: sessionXeon, mimetype: `application/json`, fileName: `creds.json` });
 				XeonBotInc.sendMessage(XeonBotInc.user.id, {
@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
                 }, {
                     quoted: xeonses
                 });
-				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `[ *لاتشارك الملف مع أي شخص لاتعرفه ولا تجرب الملف في بوتات غير جيطوسة وبوبيزة بوت* ] \n\n _JITOSSA_\n _www.github.com/omarcharaf1/JITOSSA\n\n BOBIZA\n _github.com/noureddineouafy/bobizaa_ \n\n ©2022 - 2024` }, {quoted: xeonses});
+				await XeonBotInc.sendMessage(XeonBotInc.user.id, { text: `*ثم التسجيل رقمك بنجاح ✔️* \n\n يمكنك تشغيل البوت في رقمك بهاذا الملف لاتشاركه مع أي أحد \n\n 𝘑𝘐𝘛𝘖𝘚𝘚𝘈 2024 /𝘉𝘖𝘉𝘐𝘡𝘈 2022` }, {quoted: xeonses});
         await delay(100);
         return await removeFile('./session');
         process.exit(0)
